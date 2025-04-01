@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      form {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        margin-top: 20px;
+      }
+
+      input {
+        padding: 10px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #218838;
+      }
+
+      table {
+        margin: 20px auto;
+        width: 80%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+      }
+
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+
+      td a {
+        text-decoration: none;
+        color: #007bff;
+      }
+
+      td a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <h1>URL Shortener</h1>
+    <% if (locals.id) { %>
+    <p><strong>URL Generated:</strong> <a href="http://localhost:8001/url/<%= id %>" target="_blank">http://localhost:8001/url/<%= id %></a></p>
+    <% } %>
+    <div>
+      <form method="POST" action="/url">
+        <label for="url">Enter Your Original URL</label><br />
+        <input type="text" id="url" name="url" placeholder="https://example.com" />
+        <button type="submit">Generate</button>
+      </form>
+    </div>
+    <div>
+      <% if (locals.urls) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>S. No</th>
+            <th>ShortID</th>
+            <th>Redirect</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% urls.forEach((url, index) => { %>
+          <tr>
+            <td><%= index+1 %></td>
+            <td><%= url.shortId %></td>
+            <td><a href="<%= url.redirectUrl %>" target="_blank"><%= url.redirectUrl %></a></td>
+            <td><%= url.visitHistory.length %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </body>
+</html>
